@@ -14,6 +14,8 @@ final class SharedDataStore: ObservableObject {
     @Published var widgetTheme: WidgetTheme = .aurora
     @Published var widgetPlatform: SocialPlatform = .instagram
     @Published var widgetConfig: WidgetConfig = .default
+    @Published var achievements: [Achievement] = []
+    @Published var chartDays: Int = 14
     @Published var hasCompletedOnboarding: Bool = false
 
     private init() {
@@ -51,6 +53,8 @@ final class SharedDataStore: ObservableObject {
 
         widgetConfig = WidgetConfigLoader.load()
         widgetTheme = widgetConfig.theme
+        chartDays = defaults.integer(forKey: AppConstants.UserDefaultsKeys.chartDays)
+        if chartDays == 0 { chartDays = 14 }
 
         refreshStats()
     }
@@ -88,6 +92,30 @@ final class SharedDataStore: ObservableObject {
         guard let index = events.firstIndex(where: { $0.id == eventID }) else { return }
         events[index].isViewed = true
         saveEvents(events)
+    }
+
+    func rateEvent(_ eventID: String, rating: Int, reaction: ShareReaction? = nil) {
+        var events = shareEvents
+        guard let index = events.firstIndex(where: { $0.id == eventID }) else { return }
+        events[index].rating = min(5, max(1, rating))
+        events[index].reaction = reaction
+        if !events[index].isViewed { events[index].isViewed = true }
+
+        if var user = currentUser {
+            user.totalPoints += MetricsEngine.ratingPoints(for: rating)
+            saveUser(user)
+        }
+
+        saveEvents(events)
+        Task {
+            try? await CloudKitService.shared.updateShareEvent(events[index])
+        }
+    }
+
+    func setChartDays(_ days: Int) {
+        chartDays = days
+        defaults.set(days, forKey: AppConstants.UserDefaultsKeys.chartDays)
+        refreshStats()
     }
 
     func completeOnboarding(username: String) {
@@ -174,12 +202,22 @@ final class SharedDataStore: ObservableObject {
     func refreshStats() {
         guard let user = currentUser else {
             stats = .empty
+            achievements = []
             return
         }
+        let messageCount = MessageService.shared.messages.count
         stats = StatsCalculator.calculate(
             events: shareEvents,
             currentUserID: user.id,
-            totalPoints: user.totalPoints
+            totalPoints: user.totalPoints,
+            chartDays: chartDays,
+            messageCount: messageCount
+        )
+        achievements = MetricsEngine.computeAchievements(
+            stats: stats,
+            events: shareEvents,
+            messageCount: messageCount,
+            currentUserID: user.id
         )
         if let data = try? JSONEncoder().encode(stats) {
             defaults.set(data, forKey: AppConstants.UserDefaultsKeys.cachedStatsJSON)
@@ -204,8 +242,15 @@ final class SharedDataStore: ObservableObject {
 }
 
 enum StatsCalculator {
-    static func calculate(events: [ShareEvent], currentUserID: String, totalPoints: Int) -> AppStats {
+    static func calculate(
+        events: [ShareEvent],
+        currentUserID: String,
+        totalPoints: Int,
+        chartDays: Int = 14,
+        messageCount: Int = 0
+    ) -> AppStats {
         var platformStatsMap: [SocialPlatform: PlatformStats] = [:]
+        var platformRatings: [SocialPlatform: [Int]] = [:]
         for platform in SocialPlatform.allCases {
             platformStatsMap[platform] = PlatformStats.empty(for: platform)
         }
@@ -226,6 +271,9 @@ enum StatsCalculator {
             }
 
             stats.pointsEarned += event.pointsEarned
+            if let rating = event.rating {
+                platformRatings[event.platform, default: []].append(rating)
+            }
             platformStatsMap[event.platform] = stats
 
             let dateKey = DailyCount(date: event.sharedAt, sent: 0, received: 0).dateKey
@@ -248,17 +296,25 @@ enum StatsCalculator {
         for platform in SocialPlatform.allCases {
             var stats = platformStatsMap[platform] ?? PlatformStats.empty(for: platform)
             let dailies = dailyMap[platform]?.values.sorted { $0.date < $1.date } ?? []
-            stats.dailyCounts = fillMissingDays(dailies, days: 14)
+            stats.dailyCounts = fillMissingDays(dailies, days: chartDays)
+            let ratings = platformRatings[platform] ?? []
+            stats.averageRating = ratings.isEmpty ? 0 : Double(ratings.reduce(0, +)) / Double(ratings.count)
             result.append(stats)
         }
 
         let streak = calculateStreak(events: events, userID: currentUserID)
+        let relationship = MetricsEngine.computeRelationshipMetrics(
+            events: events,
+            currentUserID: currentUserID,
+            messageCount: messageCount
+        )
 
         return AppStats(
             platformStats: result,
             totalPoints: totalPoints,
             streakDays: streak,
-            lastUpdated: Date()
+            lastUpdated: Date(),
+            relationshipMetrics: relationship
         )
     }
 

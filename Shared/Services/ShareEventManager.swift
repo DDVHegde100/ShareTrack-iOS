@@ -81,7 +81,9 @@ enum ShareEventManager {
         platform: SocialPlatform,
         contentURL: String? = nil,
         senderID: String? = nil,
-        receiverID: String? = nil
+        receiverID: String? = nil,
+        category: ContentCategory = .other,
+        note: String? = nil
     ) -> ShareEvent? {
         guard let user = loadUser() else { return nil }
         let friendID = receiverID ?? user.friendID
@@ -92,11 +94,18 @@ enum ShareEventManager {
             return nil
         }
 
+        var points = platform.pointsPerShare + category.bonusPoints
+        let streak = StatsCalculator.calculateStreak(events: events, userID: user.id)
+        points += PointsSystem.bonusPoints(for: streak)
+
         let event = ShareEvent(
             senderID: senderID ?? user.id,
             receiverID: friendID,
             platform: platform,
-            contentURL: contentURL
+            contentURL: contentURL,
+            pointsEarned: points,
+            category: category,
+            note: note
         )
 
         events.append(event)
@@ -141,6 +150,10 @@ enum CloudKitUploader {
         record["isViewed"] = (event.isViewed ? 1 : 0) as CKRecordValue
         record["contentURL"] = event.contentURL as CKRecordValue?
         record["pointsEarned"] = event.pointsEarned as CKRecordValue
+        record["category"] = event.category.rawValue as CKRecordValue
+        record["rating"] = event.rating as CKRecordValue?
+        record["reaction"] = event.reaction?.rawValue as CKRecordValue?
+        record["note"] = event.note as CKRecordValue?
 
         try? await db.save(record)
     }
