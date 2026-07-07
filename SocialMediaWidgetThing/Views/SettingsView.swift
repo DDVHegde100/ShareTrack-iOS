@@ -114,38 +114,54 @@ struct SettingsView: View {
     @EnvironmentObject var store: SharedDataStore
     @EnvironmentObject var clipboard: ClipboardTracker
     @EnvironmentObject var notifications: NotificationService
+    @EnvironmentObject var themeManager: AppThemeManager
+    @Environment(\.appTheme) private var theme
     @State private var notificationsOn = true
     @State private var showResetConfirm = false
     @State private var showLogShare = false
 
     var body: some View {
-        NavigationStack {
-            List {
-                Section("Tracking") {
-                    Button {
-                        showLogShare = true
-                    } label: {
-                        Label("Log a Share", systemImage: "plus.circle.fill")
+        List {
+            Section("Tracking") {
+                Button { showLogShare = true } label: {
+                    Label("Log a Share", systemImage: "plus.circle.fill")
+                }
+                NavigationLink { ConnectPlatformsView() } label: {
+                    Label("Connect platforms", systemImage: "link.circle.fill")
+                }
+                Toggle("Clipboard detection", isOn: $clipboard.isEnabled)
+                Toggle("Notifications", isOn: $notificationsOn)
+                    .onChange(of: notificationsOn) { _, newValue in
+                        UserDefaults(suiteName: AppConstants.sharedDefaultsSuite)?
+                            .set(newValue, forKey: AppConstants.UserDefaultsKeys.notificationsEnabled)
+                        if newValue { Task { await notifications.requestAuthorization() } }
                     }
+                NavigationLink { HowToTrackView() } label: {
+                    Label("How to track shares", systemImage: "questionmark.circle")
+                }
+            }
 
-                    Toggle("Clipboard detection", isOn: $clipboard.isEnabled)
-                    Toggle("Notifications", isOn: $notificationsOn)
-                        .onChange(of: notificationsOn) { _, newValue in
-                            UserDefaults(suiteName: AppConstants.sharedDefaultsSuite)?
-                                .set(newValue, forKey: AppConstants.UserDefaultsKeys.notificationsEnabled)
-                            if newValue {
-                                Task { await notifications.requestAuthorization() }
-                            }
+            Section("Appearance") {
+                Toggle("Match widget theme", isOn: Binding(
+                    get: { themeManager.matchWidgetTheme },
+                    set: { themeManager.setMatchWidget($0) }
+                ))
+                if !themeManager.matchWidgetTheme {
+                    Picker("App theme", selection: Binding(
+                        get: { themeManager.appThemeOverride },
+                        set: { themeManager.setAppThemeOverride($0) }
+                    )) {
+                        ForEach(WidgetTheme.allCases) { t in
+                            Text(t.displayName).tag(t)
                         }
-
-                    NavigationLink {
-                        HowToTrackView()
-                    } label: {
-                        Label("How to track shares", systemImage: "questionmark.circle")
                     }
                 }
+                NavigationLink { WidgetCustomizeView() } label: {
+                    Label("Widget studio", systemImage: "paintpalette.fill")
+                }
+            }
 
-                Section("Account") {
+            Section("Account") {
                     if let user = store.currentUser {
                         LabeledContent("Username", value: user.username)
                         LabeledContent("Invite Code", value: user.inviteCode)
@@ -171,10 +187,10 @@ struct SettingsView: View {
                     }
                 }
             }
-            .background(AppColors.background.ignoresSafeArea())
-            .navigationTitle("Settings")
             .scrollContentBackground(.hidden)
-            .foregroundStyle(.white)
+            .background(ThemedScreenBackground())
+            .navigationTitle("Settings")
+            .foregroundStyle(theme.primaryText)
             .onAppear {
                 notificationsOn = UserDefaults(suiteName: AppConstants.sharedDefaultsSuite)?
                     .object(forKey: AppConstants.UserDefaultsKeys.notificationsEnabled) as? Bool ?? true
@@ -188,7 +204,6 @@ struct SettingsView: View {
             .sheet(isPresented: $showLogShare) {
                 LogShareView()
             }
-        }
     }
 
     private func resetAllData() {
@@ -205,6 +220,10 @@ struct SettingsView: View {
         store.widgetPlatform = .instagram
         store.widgetConfig = .default
         WidgetConfigLoader.save(.default)
+        MessageService.shared.messages = []
+        MessageService.shared.comments = []
+        MessageStore.save([])
+        MessageStore.saveComments([])
     }
 }
 

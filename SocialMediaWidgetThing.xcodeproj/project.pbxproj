@@ -10,20 +10,25 @@
 		05FBFC34508E2C0CA95B9C6F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AC5067EA81E133CE491320 /* OnboardingView.swift */; };
 		06774FC590122D1FE3FBF456 /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2D1A133F7F8D8D3E2E98E0 /* CloudKitService.swift */; };
 		08D07E8CA02EBE8B97505C90 /* SharedDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5C0156042B4F453F09DF8 /* SharedDataStore.swift */; };
+		0D2E566587A45B8EBEA9866E /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF6DAA509F1BBD5A75778B5 /* MetricsView.swift */; };
+		0E1C6DBCB97F4A06E660529A /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81D7381666ED30D7FFF749 /* ContentCategory.swift */; };
 		188C54110A79EC01E6FBB28A /* QuickTrackBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59D02B879315247063365B4 /* QuickTrackBanner.swift */; };
 		1A45D47FE804857D2281E3F5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24731623CC6C1AA1FCC610B /* NotificationService.swift */; };
-		1AF6210C8AA9716243AD86DE /* PointsSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA56B37B0C392608370DA12 /* PointsSystem.swift */; };
+		1D05DF62B795E99D303C3867 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08D06015783968FF0A117C9 /* ChatMessage.swift */; };
 		1D266940864124065D5B0183 /* SharedStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34041B015B9C917C9251F00 /* SharedStyles.swift */; };
 		1F2F4652E12946815E7FD55B /* WidgetTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA3E0DBC3F7070FB136643E /* WidgetTheme.swift */; };
 		1FF0ED548AF46B3AAF63C007 /* WidgetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7723D9FA796FFCFD044F4126 /* WidgetConfig.swift */; };
 		220F99519CF1FB81B8FFCA61 /* ShareTrackWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91D9A63D15578243F4A5ED7 /* ShareTrackWidget.swift */; };
 		2309B7BA5C08E9D628EC624B /* ClipboardTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB83ECC29105EAADF0B04603 /* ClipboardTracker.swift */; };
+		2505AC876DCF7FCD548664BF /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08D06015783968FF0A117C9 /* ChatMessage.swift */; };
 		25AEFF50C5FB835E2C5CCAE3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5B3D74C94464AA2C540F1CBF /* PrivacyInfo.xcprivacy */; };
+		2C306B91626BB0ADCD37A148 /* RelationshipMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA639392C5D78D2C0F7FD6 /* RelationshipMetrics.swift */; };
 		308112DC5A7D9C5B28887175 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA673D2CF12A4F06CA7B9E /* UserProfile.swift */; };
 		35216D8ADB4CB14118C326AA /* MiniChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDDDDD80E239DEEBC1722 /* MiniChartView.swift */; };
 		395E432D52BE9A8BDCA06B5A /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DF4F56C76F00F172425579 /* Platform.swift */; };
 		3AD5CBC148365C6E90480510 /* ShareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ECB7AAD4F8E278C3BDBC1C /* ShareEvent.swift */; };
 		3C4EBE75D93C30FBCCF6A4B0 /* FriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A652B04C019D63995F320F6 /* FriendView.swift */; };
+		474E04659CA21B84217700C3 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E009BADE17C8D22881EE257 /* MessageService.swift */; };
 		4B4A9330F80C83D5755B6C2E /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F52AA30C662DB68FBF0BE5D /* ActivityFeedView.swift */; };
 		4B8679038D54CC8B7D95ABA7 /* SharedDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5C0156042B4F453F09DF8 /* SharedDataStore.swift */; };
 		4C993FC61740DC7B19278970 /* ConnectPlatformsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B51CDF973C6111AE26BA10F /* ConnectPlatformsView.swift */; };
@@ -33,11 +38,16 @@
 		5B56835D4F98773086E55A1F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D558865EBFC36A0C7EA2F /* SettingsView.swift */; };
 		5C0C612535B755AA98853CC8 /* MiniChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDDDDD80E239DEEBC1722 /* MiniChartView.swift */; };
 		5E9E2564E40E0BB1B0791A61 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE260DA5321EBD9D7F1DBD16 /* AppConstants.swift */; };
+		613CE96D341787C917F410E2 /* RelationshipMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA639392C5D78D2C0F7FD6 /* RelationshipMetrics.swift */; };
 		628AED7B77DA52271431C574 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24731623CC6C1AA1FCC610B /* NotificationService.swift */; };
+		62E8882A83DA3A1E9C8CB5BA /* AppThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD956C4F3B11B090778EB0B5 /* AppThemeManager.swift */; };
 		6392FD4240991B473ACE7432 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E70A8B9E4018235F5775BF /* ShareViewController.swift */; };
 		657E474FC24FE7D87247DACA /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24731623CC6C1AA1FCC610B /* NotificationService.swift */; };
+		6858922B48E2E4A3D3CEBFC2 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81D7381666ED30D7FFF749 /* ContentCategory.swift */; };
 		6FDEF8A7C2DE91754F692432 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7828D09F80F3FEC93D7F7F3D /* SyncManager.swift */; };
 		71F878AF69ADDF021BDFCA00 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DF4F56C76F00F172425579 /* Platform.swift */; };
+		73D3A7689F39892BB0D1E40C /* AppThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD956C4F3B11B090778EB0B5 /* AppThemeManager.swift */; };
+		74F68F597986217D115C183B /* MetricsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3C78C7F8DAB42B116E7C0 /* MetricsEngine.swift */; };
 		815EA59708FEAC4E666E8CEA /* WidgetRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ABB5AF21CE9C25133FCE3E /* WidgetRenderer.swift */; };
 		826CD2BCA808E422763F0190 /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2D1A133F7F8D8D3E2E98E0 /* CloudKitService.swift */; };
 		8514445CA8A3BCD9207780A4 /* WidgetTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA3E0DBC3F7070FB136643E /* WidgetTheme.swift */; };
@@ -50,6 +60,7 @@
 		9964A44B23EFB0C538BEBF1F /* ShareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ECB7AAD4F8E278C3BDBC1C /* ShareEvent.swift */; };
 		A22BDF30269EF4758D42E115 /* WidgetTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA3E0DBC3F7070FB136643E /* WidgetTheme.swift */; };
 		A269DC797EE3FB8D6454E73A /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7828D09F80F3FEC93D7F7F3D /* SyncManager.swift */; };
+		A367518AEF62E93AB0CA3C9A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F49337D0FED88FCDC60C21D /* ChatView.swift */; };
 		AA2B8BB06169A89795F0D8B6 /* CloudKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2D1A133F7F8D8D3E2E98E0 /* CloudKitService.swift */; };
 		ABBD1BD9D4F121A06B5C93EC /* ShareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ECB7AAD4F8E278C3BDBC1C /* ShareEvent.swift */; };
 		AE3A89E47EB65060AC5ECC3D /* SharedStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34041B015B9C917C9251F00 /* SharedStyles.swift */; };
@@ -57,8 +68,11 @@
 		B4129D238270DB77E7124DB0 /* ShareEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7F8B8157A1ABAE30A717EF /* ShareEventManager.swift */; };
 		B5F8550A0C48C08FAEF25B33 /* SharedDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F5C0156042B4F453F09DF8 /* SharedDataStore.swift */; };
 		B7698C7E5DE80FBDB890A12F /* ClipboardTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB83ECC29105EAADF0B04603 /* ClipboardTracker.swift */; };
+		B77FAADDC894C40ACBF598B8 /* RelationshipMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DA639392C5D78D2C0F7FD6 /* RelationshipMetrics.swift */; };
 		B79C354492BC6D5E8076066C /* ShareEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7F8B8157A1ABAE30A717EF /* ShareEventManager.swift */; };
+		B84DD387A643C6301937D2B5 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08D06015783968FF0A117C9 /* ChatMessage.swift */; };
 		BA22BCBAB68C7579CFDD9E3A /* MiniChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7FDDDDD80E239DEEBC1722 /* MiniChartView.swift */; };
+		BC76F8DC007870099A500140 /* MetricsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3C78C7F8DAB42B116E7C0 /* MetricsEngine.swift */; };
 		BD4C913C31A61A4D4BEFE33C /* ShareTrackerExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D49015B6C05AD7F8C9ECF751 /* ShareTrackerExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C2A94D20829EBA709FB56082 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DF4F56C76F00F172425579 /* Platform.swift */; };
 		C5FDCE8F694738B0AF50D9ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C85ED25E02810A9FEED63559 /* Assets.xcassets */; };
@@ -68,15 +82,18 @@
 		D83C6467E90003CF2B2301A8 /* SocialMediaWidgetThingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976A56259992FA6898F3BE2 /* SocialMediaWidgetThingApp.swift */; };
 		DE53B0B3044D779BCA970DEC /* WidgetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7723D9FA796FFCFD044F4126 /* WidgetConfig.swift */; };
 		DFD2CFFC8EA5A191680DC865 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89637A3DC1C4A8E568A4790 /* DashboardView.swift */; };
+		E1D0E803CBBEA8A459555724 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF81D7381666ED30D7FFF749 /* ContentCategory.swift */; };
 		E3FB2E244AA65C4DBD433631 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA673D2CF12A4F06CA7B9E /* UserProfile.swift */; };
+		E50986BF8E83CC9F329B4BFE /* MetricsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA3C78C7F8DAB42B116E7C0 /* MetricsEngine.swift */; };
 		E57538033FF6BC5ECB7F3C1C /* SharedStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34041B015B9C917C9251F00 /* SharedStyles.swift */; };
 		EADE6FDAB2CD1F65E21DA986 /* WidgetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7723D9FA796FFCFD044F4126 /* WidgetConfig.swift */; };
+		EBF72FAB77317551BCFC933B /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E009BADE17C8D22881EE257 /* MessageService.swift */; };
 		F1D2D909CB3BFA40415A470E /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7828D09F80F3FEC93D7F7F3D /* SyncManager.swift */; };
 		F6210351AB79AC24C7A8016E /* ShareEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7F8B8157A1ABAE30A717EF /* ShareEventManager.swift */; };
-		F69A2BA7CE70388006758DFF /* PointsSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA56B37B0C392608370DA12 /* PointsSystem.swift */; };
 		FA157C80F40D5E003647D832 /* WidgetRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ABB5AF21CE9C25133FCE3E /* WidgetRenderer.swift */; };
 		FA5BD4481A03BE956FAFB7FE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30A0FE791D28C3C144D6684 /* ProfileView.swift */; };
-		FCBDD3D5EE9E795ACD271D72 /* PointsSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA56B37B0C392608370DA12 /* PointsSystem.swift */; };
+		FC1ECCF53D83492BA4833ED2 /* AppThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD956C4F3B11B090778EB0B5 /* AppThemeManager.swift */; };
+		FC673EA7989C8730591D8D70 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E009BADE17C8D22881EE257 /* MessageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,7 +131,6 @@
 /* Begin PBXFileReference section */
 		053B08C3720C3652EB5FC8F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BB7DB118841736D5AFCB3EE /* ShareTrackerExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareTrackerExtension.entitlements; sourceTree = "<group>"; };
-		0EA56B37B0C392608370DA12 /* PointsSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsSystem.swift; sourceTree = "<group>"; };
 		12F5C0156042B4F453F09DF8 /* SharedDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDataStore.swift; sourceTree = "<group>"; };
 		14DF4F56C76F00F172425579 /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		1B51CDF973C6111AE26BA10F /* ConnectPlatformsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPlatformsView.swift; sourceTree = "<group>"; };
@@ -123,6 +139,7 @@
 		3022200041579DAE858E3818 /* SocialWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SocialWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B2F88D75FCF684E21F6FEA6 /* SocialMediaWidgetThing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SocialMediaWidgetThing.entitlements; sourceTree = "<group>"; };
 		4EF995B849AB15064964BA98 /* OverviewWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewWidget.swift; sourceTree = "<group>"; };
+		4F49337D0FED88FCDC60C21D /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		59DA673D2CF12A4F06CA7B9E /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		5A652B04C019D63995F320F6 /* FriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendView.swift; sourceTree = "<group>"; };
 		5A7F8B8157A1ABAE30A717EF /* ShareEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEventManager.swift; sourceTree = "<group>"; };
@@ -132,15 +149,18 @@
 		7723D9FA796FFCFD044F4126 /* WidgetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetConfig.swift; sourceTree = "<group>"; };
 		77AC5067EA81E133CE491320 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7828D09F80F3FEC93D7F7F3D /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		7DA3C78C7F8DAB42B116E7C0 /* MetricsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsEngine.swift; sourceTree = "<group>"; };
 		7F7FDDDDD80E239DEEBC1722 /* MiniChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniChartView.swift; sourceTree = "<group>"; };
 		8A629DBFE53BD31B1C0C87FC /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		92E70A8B9E4018235F5775BF /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		95F38AF468A7DDC5EF73FDD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9E009BADE17C8D22881EE257 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		A2ECB7AAD4F8E278C3BDBC1C /* ShareEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEvent.swift; sourceTree = "<group>"; };
 		A34041B015B9C917C9251F00 /* SharedStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStyles.swift; sourceTree = "<group>"; };
 		A7FB5C9CF2E171E2BBEBDF23 /* SocialWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SocialWidgetExtension.entitlements; sourceTree = "<group>"; };
 		A89637A3DC1C4A8E568A4790 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		A976A56259992FA6898F3BE2 /* SocialMediaWidgetThingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaWidgetThingApp.swift; sourceTree = "<group>"; };
+		AD956C4F3B11B090778EB0B5 /* AppThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemeManager.swift; sourceTree = "<group>"; };
 		B24731623CC6C1AA1FCC610B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		B59514136C52BEAEDE97D0FB /* DiscordService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscordService.swift; sourceTree = "<group>"; };
 		B91D9A63D15578243F4A5ED7 /* ShareTrackWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTrackWidget.swift; sourceTree = "<group>"; };
@@ -150,11 +170,15 @@
 		D59D02B879315247063365B4 /* QuickTrackBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTrackBanner.swift; sourceTree = "<group>"; };
 		D9ABB5AF21CE9C25133FCE3E /* WidgetRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetRenderer.swift; sourceTree = "<group>"; };
 		DD4D558865EBFC36A0C7EA2F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		DFF6DAA509F1BBD5A75778B5 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
+		E3DA639392C5D78D2C0F7FD6 /* RelationshipMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipMetrics.swift; sourceTree = "<group>"; };
 		E4C8D031D7968D7545C8AE16 /* SocialMediaWidgetThing.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SocialMediaWidgetThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3A976BCF32BE9F9132125B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EED8072F806AEA0AC50AF4BF /* WidgetCustomizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCustomizeView.swift; sourceTree = "<group>"; };
+		F08D06015783968FF0A117C9 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		F30A0FE791D28C3C144D6684 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		FB83ECC29105EAADF0B04603 /* ClipboardTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardTracker.swift; sourceTree = "<group>"; };
+		FF81D7381666ED30D7FFF749 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -182,7 +206,10 @@
 		36AEF47AE1D919B4118601DE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F08D06015783968FF0A117C9 /* ChatMessage.swift */,
+				FF81D7381666ED30D7FFF749 /* ContentCategory.swift */,
 				14DF4F56C76F00F172425579 /* Platform.swift */,
+				E3DA639392C5D78D2C0F7FD6 /* RelationshipMetrics.swift */,
 				A2ECB7AAD4F8E278C3BDBC1C /* ShareEvent.swift */,
 				59DA673D2CF12A4F06CA7B9E /* UserProfile.swift */,
 				7723D9FA796FFCFD044F4126 /* WidgetConfig.swift */,
@@ -219,11 +246,13 @@
 		855ED637AF90CB05AF319EFF /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AD956C4F3B11B090778EB0B5 /* AppThemeManager.swift */,
 				FB83ECC29105EAADF0B04603 /* ClipboardTracker.swift */,
 				1C2D1A133F7F8D8D3E2E98E0 /* CloudKitService.swift */,
 				B59514136C52BEAEDE97D0FB /* DiscordService.swift */,
+				9E009BADE17C8D22881EE257 /* MessageService.swift */,
+				7DA3C78C7F8DAB42B116E7C0 /* MetricsEngine.swift */,
 				B24731623CC6C1AA1FCC610B /* NotificationService.swift */,
-				0EA56B37B0C392608370DA12 /* PointsSystem.swift */,
 				12F5C0156042B4F453F09DF8 /* SharedDataStore.swift */,
 				5A7F8B8157A1ABAE30A717EF /* ShareEventManager.swift */,
 				7828D09F80F3FEC93D7F7F3D /* SyncManager.swift */,
@@ -245,9 +274,11 @@
 			isa = PBXGroup;
 			children = (
 				6F52AA30C662DB68FBF0BE5D /* ActivityFeedView.swift */,
+				4F49337D0FED88FCDC60C21D /* ChatView.swift */,
 				1B51CDF973C6111AE26BA10F /* ConnectPlatformsView.swift */,
 				A89637A3DC1C4A8E568A4790 /* DashboardView.swift */,
 				5A652B04C019D63995F320F6 /* FriendView.swift */,
+				DFF6DAA509F1BBD5A75778B5 /* MetricsView.swift */,
 				77AC5067EA81E133CE491320 /* OnboardingView.swift */,
 				F30A0FE791D28C3C144D6684 /* ProfileView.swift */,
 				D59D02B879315247063365B4 /* QuickTrackBanner.swift */,
@@ -440,20 +471,27 @@
 			files = (
 				4B4A9330F80C83D5755B6C2E /* ActivityFeedView.swift in Sources */,
 				5E9E2564E40E0BB1B0791A61 /* AppConstants.swift in Sources */,
+				FC1ECCF53D83492BA4833ED2 /* AppThemeManager.swift in Sources */,
+				2505AC876DCF7FCD548664BF /* ChatMessage.swift in Sources */,
+				A367518AEF62E93AB0CA3C9A /* ChatView.swift in Sources */,
 				2309B7BA5C08E9D628EC624B /* ClipboardTracker.swift in Sources */,
 				AA2B8BB06169A89795F0D8B6 /* CloudKitService.swift in Sources */,
 				4C993FC61740DC7B19278970 /* ConnectPlatformsView.swift in Sources */,
+				6858922B48E2E4A3D3CEBFC2 /* ContentCategory.swift in Sources */,
 				DFD2CFFC8EA5A191680DC865 /* DashboardView.swift in Sources */,
 				945F4726D3561D0A610F97F5 /* DiscordService.swift in Sources */,
 				3C4EBE75D93C30FBCCF6A4B0 /* FriendView.swift in Sources */,
 				55B0D207A93EDD97779780CA /* MainTabView.swift in Sources */,
+				EBF72FAB77317551BCFC933B /* MessageService.swift in Sources */,
+				74F68F597986217D115C183B /* MetricsEngine.swift in Sources */,
+				0D2E566587A45B8EBEA9866E /* MetricsView.swift in Sources */,
 				35216D8ADB4CB14118C326AA /* MiniChartView.swift in Sources */,
 				628AED7B77DA52271431C574 /* NotificationService.swift in Sources */,
 				05FBFC34508E2C0CA95B9C6F /* OnboardingView.swift in Sources */,
 				395E432D52BE9A8BDCA06B5A /* Platform.swift in Sources */,
-				FCBDD3D5EE9E795ACD271D72 /* PointsSystem.swift in Sources */,
 				FA5BD4481A03BE956FAFB7FE /* ProfileView.swift in Sources */,
 				188C54110A79EC01E6FBB28A /* QuickTrackBanner.swift in Sources */,
+				613CE96D341787C917F410E2 /* RelationshipMetrics.swift in Sources */,
 				5B56835D4F98773086E55A1F /* SettingsView.swift in Sources */,
 				ABBD1BD9D4F121A06B5C93EC /* ShareEvent.swift in Sources */,
 				F6210351AB79AC24C7A8016E /* ShareEventManager.swift in Sources */,
@@ -474,13 +512,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F221C72475153ACD7FA56A6 /* AppConstants.swift in Sources */,
+				62E8882A83DA3A1E9C8CB5BA /* AppThemeManager.swift in Sources */,
+				1D05DF62B795E99D303C3867 /* ChatMessage.swift in Sources */,
 				B7698C7E5DE80FBDB890A12F /* ClipboardTracker.swift in Sources */,
 				826CD2BCA808E422763F0190 /* CloudKitService.swift in Sources */,
+				0E1C6DBCB97F4A06E660529A /* ContentCategory.swift in Sources */,
 				89B6B1CDE52258BED83AF089 /* DiscordService.swift in Sources */,
+				474E04659CA21B84217700C3 /* MessageService.swift in Sources */,
+				BC76F8DC007870099A500140 /* MetricsEngine.swift in Sources */,
 				5C0C612535B755AA98853CC8 /* MiniChartView.swift in Sources */,
 				657E474FC24FE7D87247DACA /* NotificationService.swift in Sources */,
 				71F878AF69ADDF021BDFCA00 /* Platform.swift in Sources */,
-				1AF6210C8AA9716243AD86DE /* PointsSystem.swift in Sources */,
+				2C306B91626BB0ADCD37A148 /* RelationshipMetrics.swift in Sources */,
 				9964A44B23EFB0C538BEBF1F /* ShareEvent.swift in Sources */,
 				B79C354492BC6D5E8076066C /* ShareEventManager.swift in Sources */,
 				6392FD4240991B473ACE7432 /* ShareViewController.swift in Sources */,
@@ -499,14 +542,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D400CC56182B115FB54E202 /* AppConstants.swift in Sources */,
+				73D3A7689F39892BB0D1E40C /* AppThemeManager.swift in Sources */,
+				B84DD387A643C6301937D2B5 /* ChatMessage.swift in Sources */,
 				CE8985F8B4F047E3BD3805B5 /* ClipboardTracker.swift in Sources */,
 				06774FC590122D1FE3FBF456 /* CloudKitService.swift in Sources */,
+				E1D0E803CBBEA8A459555724 /* ContentCategory.swift in Sources */,
 				4EDD352BF34DADABDD7379F4 /* DiscordService.swift in Sources */,
+				FC673EA7989C8730591D8D70 /* MessageService.swift in Sources */,
+				E50986BF8E83CC9F329B4BFE /* MetricsEngine.swift in Sources */,
 				BA22BCBAB68C7579CFDD9E3A /* MiniChartView.swift in Sources */,
 				1A45D47FE804857D2281E3F5 /* NotificationService.swift in Sources */,
 				8B4E78B1B02627F0204EF32D /* OverviewWidget.swift in Sources */,
 				C2A94D20829EBA709FB56082 /* Platform.swift in Sources */,
-				F69A2BA7CE70388006758DFF /* PointsSystem.swift in Sources */,
+				B77FAADDC894C40ACBF598B8 /* RelationshipMetrics.swift in Sources */,
 				3AD5CBC148365C6E90480510 /* ShareEvent.swift in Sources */,
 				B4129D238270DB77E7124DB0 /* ShareEventManager.swift in Sources */,
 				220F99519CF1FB81B8FFCA61 /* ShareTrackWidget.swift in Sources */,

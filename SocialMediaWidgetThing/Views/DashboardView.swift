@@ -4,38 +4,73 @@ import Charts
 struct DashboardView: View {
     @EnvironmentObject var store: SharedDataStore
     @EnvironmentObject var cloudKit: CloudKitService
+    @Environment(\.appTheme) private var theme
     @State private var selectedPlatform: SocialPlatform = .instagram
     @State private var isRefreshing = false
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    QuickTrackBanner()
-                    headerSection
-                    platformPicker
-                    statsCards
-                    chartSection
-                    unviewedSection
-                    pointsSection
-                }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 32)
+        ScrollView {
+            VStack(spacing: 20) {
+                QuickTrackBanner()
+                headerSection
+                relationshipCard
+                platformPicker
+                statsCards
+                chartSection
+                unviewedSection
+                pointsSection
             }
-            .background(Color(red: 0.06, green: 0.06, blue: 0.10).ignoresSafeArea())
-            .navigationTitle("Dashboard")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        Task { await refresh() }
-                    } label: {
-                        Image(systemName: "arrow.clockwise")
-                            .rotationEffect(.degrees(isRefreshing ? 360 : 0))
-                            .animation(isRefreshing ? .linear(duration: 1).repeatForever(autoreverses: false) : .default, value: isRefreshing)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 32)
+        }
+        .background(ThemedScreenBackground())
+        .navigationTitle("Dashboard")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { Task { await refresh() } } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .rotationEffect(.degrees(isRefreshing ? 360 : 0))
+                        .animation(isRefreshing ? .linear(duration: 1).repeatForever(autoreverses: false) : .default, value: isRefreshing)
+                }
+            }
+        }
+        .refreshable { await refresh() }
+    }
+
+    private var relationshipCard: some View {
+        let m = store.stats.relationshipMetrics
+        return NavigationLink {
+            MetricsView()
+        } label: {
+            HStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Relationship Score")
+                        .font(.caption)
+                        .foregroundStyle(theme.secondaryText)
+                    Text("\(m.relationshipScore)")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundStyle(theme.primaryText)
+                    Text(m.scoreLabel)
+                        .font(.caption.bold())
+                        .foregroundStyle(theme.accent)
+                }
+                Spacer()
+                if let top = m.topCategory {
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text("Top category")
+                            .font(.caption2)
+                            .foregroundStyle(theme.secondaryText)
+                        Label(top.displayName, systemImage: top.icon)
+                            .font(.caption.bold())
+                            .foregroundStyle(top.color)
                     }
                 }
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(theme.secondaryText)
             }
-            .refreshable { await refresh() }
+            .padding()
+            .themedCard()
         }
     }
 
@@ -44,11 +79,11 @@ struct DashboardView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Hey, \(store.currentUser?.username ?? "")")
                     .font(.title2.bold())
-                    .foregroundStyle(.white)
+                    .foregroundStyle(theme.primaryText)
                 if let friend = store.currentUser?.friendUsername {
                     Text("Sharing with \(friend)")
                         .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.6))
+                        .foregroundStyle(theme.secondaryText)
                 } else {
                     Text("Add a friend to start tracking")
                         .font(.subheadline)

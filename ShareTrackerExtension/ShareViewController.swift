@@ -5,7 +5,10 @@ import WidgetKit
 class ShareViewController: UIViewController {
     private var detectedPlatform: SocialPlatform = .instagram
     private var contentURL: String?
+    private var detectedCategory: ContentCategory = .other
     private var platformButtons: [SocialPlatform: UIButton] = [:]
+    private var categoryScroll = UIScrollView()
+    private var categoryStack = UIStackView()
 
     private let stackView = UIStackView()
     private let titleLabel = UILabel()
@@ -77,6 +80,36 @@ class ShareViewController: UIViewController {
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
         stackView.addArrangedSubview(platformStack)
+
+        categoryScroll.translatesAutoresizingMaskIntoConstraints = false
+        categoryStack.axis = .horizontal
+        categoryStack.spacing = 8
+        categoryStack.translatesAutoresizingMaskIntoConstraints = false
+        categoryScroll.addSubview(categoryStack)
+        categoryScroll.showsHorizontalScrollIndicator = false
+        stackView.addArrangedSubview(categoryScroll)
+
+        NSLayoutConstraint.activate([
+            categoryScroll.heightAnchor.constraint(equalToConstant: 36),
+            categoryStack.topAnchor.constraint(equalTo: categoryScroll.topAnchor),
+            categoryStack.bottomAnchor.constraint(equalTo: categoryScroll.bottomAnchor),
+            categoryStack.leadingAnchor.constraint(equalTo: categoryScroll.leadingAnchor),
+            categoryStack.trailingAnchor.constraint(equalTo: categoryScroll.trailingAnchor),
+            categoryStack.heightAnchor.constraint(equalTo: categoryScroll.heightAnchor)
+        ])
+
+        for category in ContentCategory.allCases {
+            let btn = UIButton(type: .system)
+            btn.setTitle(category.displayName, for: .normal)
+            btn.titleLabel?.font = .systemFont(ofSize: 11, weight: .medium)
+            btn.layer.cornerRadius = 8
+            btn.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+            btn.addTarget(self, action: #selector(categoryTapped(_:)), for: .touchUpInside)
+            btn.tag = ContentCategory.allCases.firstIndex(of: category) ?? 0
+            categoryStack.addArrangedSubview(btn)
+        }
+        updateCategorySelection()
+
         stackView.addArrangedSubview(trackButton)
         stackView.addArrangedSubview(cancelButton)
         stackView.addArrangedSubview(spinner)
@@ -103,6 +136,24 @@ class ShareViewController: UIViewController {
         }
     }
 
+    @objc private func categoryTapped(_ sender: UIButton) {
+        let index = sender.tag
+        guard index < ContentCategory.allCases.count else { return }
+        detectedCategory = ContentCategory.allCases[index]
+        updateCategorySelection()
+    }
+
+    private func updateCategorySelection() {
+        for (i, view) in categoryStack.arrangedSubviews.enumerated() {
+            guard let btn = view as? UIButton, i < ContentCategory.allCases.count else { continue }
+            let selected = ContentCategory.allCases[i] == detectedCategory
+            btn.backgroundColor = selected
+                ? UIColor(red: 0.55, green: 0.35, blue: 0.95, alpha: 1)
+                : UIColor.white.withAlphaComponent(0.1)
+            btn.setTitleColor(.white, for: .normal)
+        }
+    }
+
     @objc private func platformTapped(_ sender: UIButton) {
         let index = sender.tag
         guard index < SocialPlatform.allCases.count else { return }
@@ -120,7 +171,7 @@ class ShareViewController: UIViewController {
         spinner.startAnimating()
         trackButton.isEnabled = false
 
-        if let event = ShareEventManager.logShare(platform: detectedPlatform, contentURL: contentURL) {
+        if let event = ShareEventManager.logShare(platform: detectedPlatform, contentURL: contentURL, category: detectedCategory) {
             WidgetCenter.shared.reloadAllTimelines()
             showStatus("Tracked! +\(event.pointsEarned) points", success: true)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { self.completeRequest() }

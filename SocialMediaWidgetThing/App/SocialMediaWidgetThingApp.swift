@@ -8,6 +8,8 @@ struct SocialMediaWidgetThingApp: App {
     @StateObject private var syncManager = SyncManager.shared
     @StateObject private var clipboard = ClipboardTracker.shared
     @StateObject private var notifications = NotificationService.shared
+    @StateObject private var messages = MessageService.shared
+    @StateObject private var themeManager = AppThemeManager.shared
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -20,21 +22,26 @@ struct SocialMediaWidgetThingApp: App {
                 .environmentObject(syncManager)
                 .environmentObject(clipboard)
                 .environmentObject(notifications)
-                .preferredColorScheme(.dark)
-                .onOpenURL { url in
-                    handleDeepLink(url)
-                }
+                .environmentObject(messages)
+                .environmentObject(themeManager)
+                .environment(\.appTheme, themeManager.currentTheme)
+                .onOpenURL { url in handleDeepLink(url) }
                 .task {
                     await notifications.requestAuthorization()
+                    themeManager.refresh(widgetConfig: store.widgetConfig)
                     await syncManager.syncIfNeeded(store: store, cloudKit: cloudKit)
                 }
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
                         clipboard.checkClipboard()
+                        themeManager.refresh(widgetConfig: store.widgetConfig)
                         Task {
                             await syncManager.syncIfNeeded(store: store, cloudKit: cloudKit)
                         }
                     }
+                }
+                .onChange(of: store.widgetConfig) { _, config in
+                    themeManager.refresh(widgetConfig: config)
                 }
         }
     }
@@ -66,6 +73,7 @@ struct SocialMediaWidgetThingApp: App {
 
 struct RootView: View {
     @EnvironmentObject var store: SharedDataStore
+    @EnvironmentObject var themeManager: AppThemeManager
 
     var body: some View {
         Group {
@@ -75,6 +83,7 @@ struct RootView: View {
                 OnboardingView()
             }
         }
+        .environment(\.appTheme, themeManager.currentTheme)
         .animation(.easeInOut(duration: 0.4), value: store.hasCompletedOnboarding)
     }
 }
