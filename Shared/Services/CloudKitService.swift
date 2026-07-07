@@ -96,6 +96,14 @@ final class CloudKitService: ObservableObject {
     }
 
     func uploadShareEvent(_ event: ShareEvent) async throws {
+        _ = try await publicDB.save(shareEventRecord(event))
+    }
+
+    func updateShareEvent(_ event: ShareEvent) async throws {
+        _ = try await publicDB.save(shareEventRecord(event))
+    }
+
+    private func shareEventRecord(_ event: ShareEvent) -> CKRecord {
         let record = CKRecord(recordType: AppConstants.RecordTypes.shareEvent, recordID: CKRecord.ID(recordName: event.id))
         record["senderID"] = event.senderID as CKRecordValue
         record["receiverID"] = event.receiverID as CKRecordValue
@@ -104,8 +112,85 @@ final class CloudKitService: ObservableObject {
         record["isViewed"] = (event.isViewed ? 1 : 0) as CKRecordValue
         record["contentURL"] = event.contentURL as CKRecordValue?
         record["pointsEarned"] = event.pointsEarned as CKRecordValue
+        record["category"] = event.category.rawValue as CKRecordValue
+        record["rating"] = event.rating as CKRecordValue?
+        record["reaction"] = event.reaction?.rawValue as CKRecordValue?
+        record["note"] = event.note as CKRecordValue?
+        return record
+    }
 
+    func uploadMessage(_ message: ChatMessage) async throws {
+        let record = CKRecord(recordType: AppConstants.RecordTypes.message, recordID: CKRecord.ID(recordName: message.id))
+        record["senderID"] = message.senderID as CKRecordValue
+        record["receiverID"] = message.receiverID as CKRecordValue
+        record["text"] = message.text as CKRecordValue
+        record["sentAt"] = message.sentAt as CKRecordValue
+        record["shareEventID"] = message.shareEventID as CKRecordValue?
+        record["isRead"] = (message.isRead ? 1 : 0) as CKRecordValue
         _ = try await publicDB.save(record)
+    }
+
+    func uploadComment(_ comment: ShareComment) async throws {
+        let record = CKRecord(recordType: AppConstants.RecordTypes.comment, recordID: CKRecord.ID(recordName: comment.id))
+        record["shareEventID"] = comment.shareEventID as CKRecordValue
+        record["authorID"] = comment.authorID as CKRecordValue
+        record["text"] = comment.text as CKRecordValue
+        record["createdAt"] = comment.createdAt as CKRecordValue
+        _ = try await publicDB.save(record)
+    }
+
+    func fetchMessages(for userID: String, friendID: String?) async throws -> [ChatMessage] {
+        guard let friendID else { return [] }
+        var all: [ChatMessage] = []
+
+        for predicate in [
+            NSPredicate(format: "senderID == %@ AND receiverID == %@", userID, friendID),
+            NSPredicate(format: "senderID == %@ AND receiverID == %@", friendID, userID)
+        ] {
+            let query = CKQuery(recordType: AppConstants.RecordTypes.message, predicate: predicate)
+            query.sortDescriptors = [NSSortDescriptor(key: "sentAt", ascending: true)]
+            let (results, _) = try await publicDB.records(matching: query, resultsLimit: 300)
+            for (_, result) in results {
+                if case .success(let record) = result {
+                    let msg = messageFromRecord(record)
+                    if !all.contains(where: { $0.id == msg.id }) { all.append(msg) }
+                }
+            }
+        }
+        return all.sorted { $0.sentAt < $1.sentAt }
+    }
+
+    func fetchComments(for userID: String, friendID: String?) async throws -> [ShareComment] {
+        guard friendID != nil else { return [] }
+        let query = CKQuery(recordType: AppConstants.RecordTypes.comment, predicate: NSPredicate(value: true))
+        query.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        let (results, _) = try await publicDB.records(matching: query, resultsLimit: 500)
+        var comments: [ShareComment] = []
+        for (_, result) in results {
+            if case .success(let record) = result {
+                comments.append(commentFromRecord(record))
+            }
+        }
+        return comments
+    }
+
+    func syncAll(user: UserProfile) async throws -> SyncPayload {
+        isSyncing = true
+        syncError = nil
+        defer { isSyncing = false }
+
+        try await publishUser(user)
+        let events = try await fetchShareEvents(for: user.id, friendID: user.friendID)
+        let messages = try await fetchMessages(for: user.id, friendID: user.friendID)
+        let comments = try await fetchComments(for: user.id, friendID: user.friendID)
+        lastSyncDate = Date()
+        return SyncPayload(events: events, messages: messages, comments: comments)
+    }
+
+    struct SyncPayload {
+        let events: [ShareEvent]
+        let messages: [ChatMessage]
+        let comments: [ShareComment]
     }
 
     func fetchShareEvents(for userID: String, friendID: String?) async throws -> [ShareEvent] {
@@ -141,17 +226,6 @@ final class CloudKitService: ObservableObject {
         return allEvents.sorted { $0.sharedAt > $1.sharedAt }
     }
 
-    func syncAll(user: UserProfile) async throws -> [ShareEvent] {
-        isSyncing = true
-        syncError = nil
-        defer { isSyncing = false }
-
-        try await publishUser(user)
-        let events = try await fetchShareEvents(for: user.id, friendID: user.friendID)
-        lastSyncDate = Date()
-        return events
-    }
-
     func markEventViewedInCloud(_ eventID: String) async throws {
         let recordID = CKRecord.ID(recordName: eventID)
         let record = try await publicDB.record(for: recordID)
@@ -181,7 +255,33 @@ final class CloudKitService: ObservableObject {
             sharedAt: record["sharedAt"] as? Date ?? Date(),
             isViewed: (record["isViewed"] as? Int ?? 0) == 1,
             contentURL: record["contentURL"] as? String,
-            pointsEarned: record["pointsEarned"] as? Int ?? 10
+            pointsEarned: record["pointsEarned"] as? Int ?? 10,
+            category: ContentCategory(rawValue: record["category"] as? String ?? "") ?? .other,
+            rating: record["rating"] as? Int,
+            reaction: ShareReaction(rawValue: record["reaction"] as? String ?? ""),
+            note: record["note"] as? String
+        )
+    }
+
+    private func messageFromRecord(_ record: CKRecord) -> ChatMessage {
+        ChatMessage(
+            id: record.recordID.recordName,
+            senderID: record["senderID"] as? String ?? "",
+            receiverID: record["receiverID"] as? String ?? "",
+            text: record["text"] as? String ?? "",
+            sentAt: record["sentAt"] as? Date ?? Date(),
+            shareEventID: record["shareEventID"] as? String,
+            isRead: (record["isRead"] as? Int ?? 0) == 1
+        )
+    }
+
+    private func commentFromRecord(_ record: CKRecord) -> ShareComment {
+        ShareComment(
+            id: record.recordID.recordName,
+            shareEventID: record["shareEventID"] as? String ?? "",
+            authorID: record["authorID"] as? String ?? "",
+            text: record["text"] as? String ?? "",
+            createdAt: record["createdAt"] as? Date ?? Date()
         )
     }
 

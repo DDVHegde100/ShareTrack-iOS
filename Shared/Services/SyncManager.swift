@@ -29,11 +29,14 @@ final class SyncManager: ObservableObject {
 
         do {
             let previousIDs = Set(store.shareEvents.map(\.id))
-            let events = try await cloudKit.syncAll(user: user)
-            store.importEvents(events)
+            let previousMsgIDs = Set(MessageService.shared.messages.map(\.id))
+            let payload = try await cloudKit.syncAll(user: user)
+            store.importEvents(payload.events)
+            MessageService.shared.importMessages(payload.messages)
+            MessageService.shared.importComments(payload.comments)
             lastSyncDate = Date()
 
-            let newReceived = events.filter {
+            let newReceived = payload.events.filter {
                 $0.receiverID == user.id && !previousIDs.contains($0.id) && !$0.isViewed
             }
             for event in newReceived {
@@ -41,6 +44,13 @@ final class SyncManager: ObservableObject {
                     from: user.friendUsername ?? "Friend",
                     platform: event.platform
                 )
+            }
+
+            let newMessages = payload.messages.filter {
+                $0.receiverID == user.id && !previousMsgIDs.contains($0.id)
+            }
+            for msg in newMessages {
+                NotificationService.shared.notifyNewMessage(from: user.friendUsername ?? "Friend")
             }
         } catch {
             syncError = error.localizedDescription

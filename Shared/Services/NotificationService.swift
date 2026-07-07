@@ -52,4 +52,17 @@ final class NotificationService: ObservableObject {
         )
         UNUserNotificationCenter.current().add(request)
     }
+
+    func notifyNewMessage(from sender: String) {
+        let defaults = UserDefaults(suiteName: AppConstants.sharedDefaultsSuite)
+        guard defaults?.bool(forKey: AppConstants.UserDefaultsKeys.notificationsEnabled) != false else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Message from \(sender)"
+        content.body = "Open ShareTrack to reply"
+        content.sound = .default
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
+    }
 }
