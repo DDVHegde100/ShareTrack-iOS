@@ -1,0 +1,12 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdata/
+xcuserdata/
+
+# macOS
+.DS_Store
+
+# Secrets (never commit)
+Config.local.xcconfig
