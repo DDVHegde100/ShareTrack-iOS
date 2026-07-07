@@ -22,11 +22,18 @@ enum AppConstants {
         static let lastStatsUpdate = "lastStatsUpdate"
         static let notificationsEnabled = "notificationsEnabled"
         static let clipboardTrackingEnabled = "clipboardTrackingEnabled"
+        static let matchWidgetTheme = "matchWidgetTheme"
+        static let appThemeOverride = "appThemeOverride"
+        static let messagesJSON = "messagesJSON"
+        static let commentsJSON = "commentsJSON"
+        static let chartDays = "chartDays"
     }
 
     enum RecordTypes {
         static let user = "SMWUser"
         static let shareEvent = "SMWShareEvent"
         static let friendship = "SMWFriendship"
+        static let message = "SMWMessage"
+        static let comment = "SMWComment"
     }
 }
