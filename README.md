@@ -61,3 +61,5 @@ SocialWidgetExtension/    WidgetKit targets
 ShareTrackerExtension/    Share extension
 project.yml       XcodeGen spec
 ```
+\n\n---\n\n**Author:** [Dhruv Hegde](https://github.com/DDVHegde100) · CS @ University of Michigan\n
+**License:** [MIT](LICENSE)
